@@ -13,26 +13,33 @@ const Mission = () => {
       const data = await response.json();
       dispatch(fetchMissions(data));
     };
-  
+
     getMissions();
   }, [dispatch]);
 
   return (
     <div className="container mx-auto p-4">
-      <table className="min-w-full table-auto border-collapse border border-gray-300">
+      <table className="min-w-full table-auto border-collapse border border-gray-300 hidden sm:table">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border border-gray-300 px-4 py-2 text-left">Mission</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Description</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
+            <th className="border border-gray-300 px-6 py-2 text-base w-1/5 text-left">Mission</th>
+            <th className="border border-gray-300 px-6 py-2 text-base w-2/5 text-left">Description</th>
+            <th className="border border-gray-300 px-6 py-2 text-base w-1/6 text-left">Status</th>
+            <th className="border border-gray-300 px-6 py-2 text-base w-1/6 text-left">Action</th>
           </tr>
         </thead>
         <tbody>
-          {missions.map((mission) => (
-            <MissionItem key={mission.mission_id} mission={mission} />
+          {missions.map((mission, index) => (
+            <MissionItem key={mission.mission_id} mission={mission} isEven={index % 2 === 0} />
           ))}
         </tbody>
       </table>
+
+      <div className="sm:hidden">
+        {missions.map((mission, index) => (
+          <MissionItem key={mission.mission_id} mission={mission} isEven={index % 2 === 0} />
+        ))}
+      </div>
     </div>
   );
 };
