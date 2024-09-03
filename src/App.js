@@ -1,9 +1,14 @@
-function App() {
+// App.js
+import React from 'react';
+import Navbar from 'navbar'; 
+
+const App = () => {
   return (
     <div className="App">
-      <h1>Hello World!</h1>
+      <Navbar />
+      {/* Other components */}
     </div>
   );
-}
+};
 
 export default App;
