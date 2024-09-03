@@ -20,7 +20,7 @@ const MissionItem = ({ mission, isEven }) => {
         <td className="border border-gray-300 px-6 py-2 font-bold text-base sm:w-1/5 w-full">
           {mission.mission_name}
         </td>
-        <td className="border border-gray-300 px-4 py-2 text-base sm:w-2/5 w-full">
+        <td className="border border-gray-300 px-4 py-2 text-sm sm:w-2/5 w-full">
           {mission.description}
         </td>
         <td className="px-6 py-2 border sm:w-1/6 w-full">
