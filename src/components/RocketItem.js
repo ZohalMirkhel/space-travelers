@@ -8,7 +8,7 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
       <p className="rocket-description mb-4">{rocket.description}</p>
       {rocket.reserved ? (
         <>
-          <span className="text-green-600 font-bold mb-2">Reserved</span>
+          <span className="text-blue-600 font-bold mb-2">Reserved</span>
           <button 
             onClick={() => onCancel(rocket.id)} 
             className="cancel-button bg-red-500 text-white px-4 py-2 mt-2 rounded"
