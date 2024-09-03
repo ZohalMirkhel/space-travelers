@@ -7,15 +7,15 @@ const MissionItem = ({ mission }) => {
 
   return (
     <tr>
-      <td className="px-4 py-2 border">{mission.mission_name}</td>
-      <td className="px-4 py-2 border">{mission.description}</td>
+      <td className="border border-gray-300 px-4 py-2 font-bold">{mission.mission_name}</td>
+      <td className="border border-gray-300 px-4 py-2">{mission.description}</td>
       <td className="px-4 py-2 border">
         <div className="flex flex-col items-start">
           <div className="mb-2">
             {mission.reserved ? (
-              <span className="text-green-500">Active Member</span>
+              <span className="bg-green-500 text-white px-4 py-1 rounded">Active Member</span>
             ) : (
-              <span className="text-gray-500">NOT A MEMBER</span>
+              <span className="bg-gray-500 text-white px-4 py-1 rounded">NOT A MEMBER</span>
             )}
           </div>
         </div>
@@ -24,14 +24,14 @@ const MissionItem = ({ mission }) => {
           <div>
             {mission.reserved ? (
               <button
-                className="bg-red-500 text-white px-2 py-1 rounded"
+                className="bg-white text-red-500 border border-red-500 px-2 py-1 rounded"
                 onClick={() => dispatch(leaveMission(mission.mission_id))}
               >
                 Leave Mission
               </button>
             ) : (
               <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
+                className="bg-gray-200 text-black px-4 py-1 rounded ml-2"
                 onClick={() => dispatch(joinMission(mission.mission_id))}
               >
                 Join Mission
