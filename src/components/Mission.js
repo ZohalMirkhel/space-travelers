@@ -25,6 +25,7 @@ const Mission = () => {
             <th className="px-4 py-2 border">Mission</th>
             <th className="px-4 py-2 border">Description</th>
             <th className="px-4 py-2 border">Status</th>
+            <th className="px-4 py-2 border"></th>
           </tr>
         </thead>
         <tbody>
