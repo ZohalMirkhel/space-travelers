@@ -17,14 +17,14 @@ const MissionItem = ({ mission }) => {
         )}
         {mission.reserved ? (
           <button
-            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
+            className="bg-red-500 text-white px-2 py-1 rounded"
             onClick={() => dispatch(leaveMission(mission.mission_id))}
           >
             Leave Mission
           </button>
         ) : (
           <button
-            className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700"
+            className="bg-blue-500 text-white px-2 py-1 rounded"
             onClick={() => dispatch(joinMission(mission.mission_id))}
           >
             Join Mission

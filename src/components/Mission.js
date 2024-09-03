@@ -19,12 +19,12 @@ const Mission = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <table className="min-w-full border-collapse shadow-lg bg-white rounded-lg">
+      <table className="min-w-full border-collapse">
         <thead>
           <tr>
-            <th className="px-4 py-2 border bg-gray-200 text-left">Mission</th>
-            <th className="px-4 py-2 border bg-gray-200 text-left">Description</th>
-            <th className="px-4 py-2 border bg-gray-200 text-left">Status</th>
+            <th className="px-4 py-2 border">Mission</th>
+            <th className="px-4 py-2 border">Description</th>
+            <th className="px-4 py-2 border">Status</th>
           </tr>
         </thead>
         <tbody>
