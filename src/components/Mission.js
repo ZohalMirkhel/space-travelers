@@ -13,7 +13,7 @@ const Mission = () => {
       const data = await response.json();
       dispatch(fetchMissions(data));
     };
-
+  
     getMissions();
   }, [dispatch]);
 

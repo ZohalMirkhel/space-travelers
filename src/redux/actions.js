@@ -4,8 +4,13 @@ export const LEAVE_MISSION = 'LEAVE_MISSION';
 
 export const fetchMissions = (missions) => ({
   type: FETCH_MISSIONS,
-  payload: missions,
+  payload: missions.map(mission => ({
+    mission_id: mission.mission_id,
+    mission_name: mission.mission_name,
+    description: mission.description,
+  })),
 });
+
 
 export const joinMission = (id) => ({
   type: JOIN_MISSION,

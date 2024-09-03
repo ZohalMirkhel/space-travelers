@@ -1,4 +1,6 @@
-import { FETCH_MISSIONS, JOIN_MISSION, LEAVE_MISSION } from './actions';
+const FETCH_MISSIONS = 'FETCH_MISSIONS';
+const JOIN_MISSION = 'JOIN_MISSION';
+const LEAVE_MISSION = 'LEAVE_MISSION';
 
 const initialState = [];
 
