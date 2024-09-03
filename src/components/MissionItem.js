@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { joinMission, leaveMission } from '../redux/action';
+import { joinMission, leaveMission } from '../redux/actions';
 
 const MissionItem = ({ mission }) => {
   const dispatch = useDispatch();

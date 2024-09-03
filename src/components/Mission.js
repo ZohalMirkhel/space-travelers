@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMissions } from '../redux/action';
+import { fetchMissions } from '../redux/actions';
 import MissionItem from './MissionItem';
 
 const Mission = () => {
   const dispatch = useDispatch();
-  const missions = useSelector((state) => state);
+  const missions = useSelector((state) => state.missions);
 
   useEffect(() => {
     const getMissions = async () => {
@@ -29,7 +29,7 @@ const Mission = () => {
         </thead>
         <tbody>
           {missions.map((mission) => (
-            <MissionItem key={mission.id} mission={mission} />
+            <MissionItem key={mission.mission_id} mission={mission} />
           ))}
         </tbody>
       </table>
