@@ -1,12 +1,14 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from '../redux/store'; 
 import Mission from '../components/Mission';
 
-const Missions = () => {
+function App() {
   return (
-    <div>
+    <Provider store={store}>
       <Mission />
-    </div>
+    </Provider>
   );
-};
+}
 
-export default Missions;
+export default App;
