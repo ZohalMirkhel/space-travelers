@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios for fetching data
-import RocketItem from './RocketItem'; // Import RocketItem component
+import axios from 'axios'; 
+import RocketItem from './RocketItem'; 
 
 const Rockets = () => {
   const [rockets, setRockets] = useState([]);
@@ -51,7 +51,7 @@ const Rockets = () => {
               id: rocket.id,
               name: rocket.name,
               description: rocket.description,
-              image: rocket.flickr_images[0] || 'https://via.placeholder.com/300', // Use first image or a placeholder
+              image: rocket.flickr_images[0] || 'https://via.placeholder.com/300', 
               reserved: rocket.reserved || false, // Ensure reserved status is passed
             }}
             onReserve={handleReserveClick}
