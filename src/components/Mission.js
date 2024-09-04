@@ -19,7 +19,7 @@ const Mission = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <table className="min-w-full table-auto border-collapse border border-gray-300 hidden sm:table">
+      <table className="min-w-full border-separate border-spacing-0 border-2 border-black rounded-lg overflow-hidden hidden sm:table">
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 px-6 py-2 text-base w-1/5 text-left">Mission</th>
