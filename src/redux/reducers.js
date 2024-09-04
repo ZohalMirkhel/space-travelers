@@ -12,7 +12,7 @@ const initialState = {
   error: null,
 };
 
-// Reducer Function
+// Reducer 
 const rocketsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ROCKETS_REQUEST:
