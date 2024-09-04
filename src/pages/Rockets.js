@@ -1,19 +1,12 @@
 import React from 'react';
-import RocketsComponent from '../components/Rockets'; // Import the actual Rockets component
+import Rockets from '../components/Rockets';
 
-// Placeholder Rockets component
-const RocketsPlaceholder = () => {
-  return <div>Rockets Page</div>;
-};
-
-const Rockets = () => {
+const rocketsPage = () => {
   return (
     <div>
-      <h1>SpaceX Rockets</h1>
-      <RocketsComponent />
-      <RocketsPlaceholder /> {/* This will render the placeholder component */}
+      <Rockets />
     </div>
   );
 };
 
-export default Rockets;
+export default rocketsPage;

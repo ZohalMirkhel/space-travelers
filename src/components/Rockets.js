@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
-import RocketItem from './RocketItem'; 
+import axios from 'axios';
+import RocketItem from './RocketItem';
+import { useDispatch } from 'react-redux';
+import { reserveRocket, cancelReservation } from '../redux/reducers'; 
 
 const Rockets = () => {
   const [rockets, setRockets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchRockets = async () => {
       try {
+        console.log('Fetching rockets...');
         const response = await axios.get('https://api.spacexdata.com/v4/rockets');
-        setRockets(response.data);
+        console.log('Response data:', response.data);
+        const reservedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+
+        const updatedRockets = response.data.map(rocket => ({
+          ...rocket,
+          reserved: !!reservedRockets.find(reservedRocket => reservedRocket.id === rocket.id)
+        }));
+
+        setRockets(updatedRockets);
         setLoading(false);
       } catch (err) {
+        console.error('Error fetching rockets:', err);
         setError('Failed to fetch rockets data.');
         setLoading(false);
       }
@@ -23,16 +36,18 @@ const Rockets = () => {
   }, []);
 
   const handleReserveClick = (id) => {
-    setRockets((prevRockets) =>
-      prevRockets.map((rocket) =>
+    dispatch(reserveRocket(id));
+    setRockets(prevRockets =>
+      prevRockets.map(rocket =>
         rocket.id === id ? { ...rocket, reserved: true } : rocket
       )
     );
   };
 
   const handleCancelClick = (id) => {
-    setRockets((prevRockets) =>
-      prevRockets.map((rocket) =>
+    dispatch(cancelReservation(id));
+    setRockets(prevRockets =>
+      prevRockets.map(rocket =>
         rocket.id === id ? { ...rocket, reserved: false } : rocket
       )
     );
@@ -42,23 +57,27 @@ const Rockets = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="">
-      <div className="">
-        {rockets.map((rocket) => (
-          <RocketItem
-            key={rocket.id}
-            rocket={{
-              id: rocket.id,
-              name: rocket.name,
-              description: rocket.description,
-              image: rocket.flickr_images[0] || 'https://via.placeholder.com/300', 
-              reserved: rocket.reserved || false, // Ensure reserved status is passed
-            }}
-            onReserve={handleReserveClick}
-            onCancel={handleCancelClick}
-          />
-        ))}
-      </div>
+    <div className="rockets-container">
+      {rockets.length > 0 ? (
+        <div className="rocket-item-container">
+          {rockets.map(rocket => (
+            <RocketItem
+              key={rocket.id}
+              rocket={{
+                id: rocket.id,
+                name: rocket.name,
+                description: rocket.description,
+                image: rocket.flickr_images[0] || 'https://via.placeholder.com/300',
+                reserved: rocket.reserved || false,
+              }}
+              onReserve={handleReserveClick}
+              onCancel={handleCancelClick}
+            />
+          ))}
+        </div>
+      ) : (
+        <div>No rockets available</div>
+      )}
     </div>
   );
 };
