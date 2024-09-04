@@ -8,11 +8,12 @@ const ProfileList = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">My Joined Missions</h1>
       {joinedMissions.length > 0 ? (
         <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-6 py-2 text-base text-left">Joined Missions</th>
+              <th className="border border-gray-300 px-6 py-2 text-base text-left">Mission</th>
             </tr>
           </thead>
           <tbody>
