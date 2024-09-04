@@ -1,59 +1,33 @@
-import {
-  FETCH_ROCKETS_REQUEST,
-  FETCH_ROCKETS_SUCCESS,
-  FETCH_ROCKETS_FAILURE,
-  RESERVE_ROCKET,
-  CANCEL_ROCKET,
-} from './actions';
+// reducers.js
+import { RESERVE_ROCKET, CANCEL_RESERVATION } from './actions';
 
 const initialState = {
   rockets: [],
-  loading: false,
-  error: null,
+  reservedRockets: [],
 };
 
-// Reducer 
-const rocketsReducer = (state = initialState, action) => {
+const rocketReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_ROCKETS_REQUEST:
+    case RESERVE_ROCKET:
+      const reservedRocket = state.rockets.find(rocket => rocket.id === action.payload);
       return {
         ...state,
-        loading: true,
-        error: null,
-      };
-    case FETCH_ROCKETS_SUCCESS:
-      return {
-        ...state,
-        rockets: action.payload,
-        loading: false,
-      };
-    case FETCH_ROCKETS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    case RESERVE_ROCKET: {
-      const id = action.payload;
-      return {
-        ...state,
-        rockets: state.rockets.map((rocket) =>
-          rocket.id === id ? { ...rocket, reserved: true } : rocket
+        reservedRockets: [...state.reservedRockets, reservedRocket],
+        rockets: state.rockets.map(rocket =>
+          rocket.id === action.payload ? { ...rocket, reserved: true } : rocket
         ),
       };
-    }
-    case CANCEL_ROCKET: {
-      const id = action.payload;
+    case CANCEL_RESERVATION:
       return {
         ...state,
-        rockets: state.rockets.map((rocket) =>
-          rocket.id === id ? { ...rocket, reserved: false } : rocket
+        reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload),
+        rockets: state.rockets.map(rocket =>
+          rocket.id === action.payload ? { ...rocket, reserved: false } : rocket
         ),
       };
-    }
     default:
       return state;
   }
 };
 
-export default rocketsReducer;
+export default rocketReducer;
