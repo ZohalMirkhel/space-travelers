@@ -28,10 +28,11 @@ const ProfileList = () => {
                     {mission.mission_name}
                   </td>
                   <td className="border border-gray-300 px-6 py-2 text-sm text-left">
-                    <span className="bg-[#5F9EA0] text-white px-3 py-1 rounded text-sm">
+                    <span className="bg-[#5F9EA0] text-white px-3 py-1 rounded text-xs md:text-sm block max-w-full text-center">
                       Active Member
                     </span>
                   </td>
+
                 </tr>
               ))
             ) : (
