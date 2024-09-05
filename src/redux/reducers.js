@@ -22,21 +22,24 @@ const rocketReducer = (state = initialState, action) => {
     case FETCH_ROCKETS_FAILURE:
       return { ...state, loading: false, error: action.payload };
     case RESERVE_ROCKET:
+      const reservedRocketsAfterReserve = [...state.reservedRockets, { id: action.payload.id }];
+      localStorage.setItem('reservedRockets', JSON.stringify(reservedRocketsAfterReserve));
       return {
         ...state,
-        reservedRockets: [...state.reservedRockets, action.payload]
+        reservedRockets: reservedRocketsAfterReserve
       };
     case CANCEL_RESERVATION:
+      const reservedRocketsAfterCancel = state.reservedRockets.filter(
+        rocket => rocket.id !== action.payload
+      );
+      localStorage.setItem('reservedRockets', JSON.stringify(reservedRocketsAfterCancel));
       return {
         ...state,
-        reservedRockets: state.reservedRockets.filter(
-          rocket => rocket.id !== action.payload
-        )
+        reservedRockets: reservedRocketsAfterCancel
       };
     default:
       return state;
   }
 };
-
 
 export default rocketReducer;
