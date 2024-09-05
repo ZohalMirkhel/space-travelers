@@ -18,47 +18,45 @@ export const fetchRockets = () => async (dispatch) => {
     dispatch({ type: FETCH_ROCKETS_FAILURE, payload: error.message });
   }
 };
-s
+
 export const reserveRocket = (rocketId) => {
   return (dispatch, getState) => {
     const state = getState();
     const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
 
-    if (!Array.isArray(currentReservations)) {
-      console.error('Invalid data in localStorage');
-      return;
+    if (!currentReservations.some(rocket => rocket.id === rocketId)) {
+      const updatedRockets = [...currentReservations, { id: rocketId }];
+      localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
+      
+      dispatch({
+        type: RESERVE_ROCKET,
+        payload: { id: rocketId }
+      });
     }
-
-    const updatedRockets = [...currentReservations, { id: rocketId }];
-    localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
-    dispatch({
-      type: RESERVE_ROCKET,
-      payload: { id: rocketId }
-    });
   };
 };
-
-export const setReservedRockets = (rockets) => ({
-  type: SET_RESERVED_ROCKETS,
-  payload: rockets
-});
 
 export const cancelReservation = (rocketId) => {
   return (dispatch, getState) => {
     const state = getState();
-    const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+    const reservedRockets = state.reservedRockets || [];
 
-    if (!Array.isArray(currentReservations)) {
-      console.error('Invalid data in localStorage');
-      return;
-    }
-
-    const updatedRockets = currentReservations.filter(rocket => rocket.id !== rocketId);
+    const updatedRockets = reservedRockets.filter(rocket => rocket.id !== rocketId);
     localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
 
     dispatch({
       type: CANCEL_RESERVATION,
       payload: rocketId
+    });
+  };
+};
+
+export const setReservedRockets = () => {
+  return (dispatch) => {
+    const reservedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+    dispatch({
+      type: SET_RESERVED_ROCKETS,
+      payload: reservedRockets
     });
   };
 };
