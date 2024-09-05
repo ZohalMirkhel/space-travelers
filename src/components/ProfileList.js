@@ -1,21 +1,35 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRockets, setReservedRockets } from '../redux/actions';
 
 const ProfileList = () => {
+  const dispatch = useDispatch();
+  const rockets = useSelector(state => state.rockets);
   const reservedRockets = useSelector(state => state.reservedRockets);
 
-  if (!reservedRockets || reservedRockets.length === 0) {
+  useEffect(() => {
+    dispatch(fetchRockets());
+    const reservedFromLocalStorage = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+    if (Array.isArray(reservedFromLocalStorage)) {
+      dispatch(setReservedRockets(reservedFromLocalStorage));
+    }
+  }, [dispatch]);
+
+  const reservedRocketDetails = reservedRockets.map(reserved => {
+    const rocket = rockets.find(rocket => rocket.id === reserved.id);
+    return rocket ? rocket.name : null;
+  }).filter(name => name);
+
+  if (!reservedRocketDetails.length) {
     return <p>No rockets reserved</p>;
   }
 
   return (
     <div>
-      {reservedRockets.map(rocket => (
-        rocket && rocket.name ? (
-          <div key={rocket.id} className="rocket-item">
-            <h2>{rocket.name}</h2>
-          </div>
-        ) : null
+      {reservedRocketDetails.map((name, index) => (
+        <div key={index} className="rocket-item">
+          <h2>{name}</h2>
+        </div>
       ))}
     </div>
   );

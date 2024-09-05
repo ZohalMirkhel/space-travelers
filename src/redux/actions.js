@@ -5,6 +5,7 @@ export const FETCH_ROCKETS_SUCCESS = 'FETCH_ROCKETS_SUCCESS';
 export const FETCH_ROCKETS_FAILURE = 'FETCH_ROCKETS_FAILURE';
 export const RESERVE_ROCKET = 'RESERVE_ROCKET';
 export const CANCEL_RESERVATION = 'CANCEL_RESERVATION';
+export const SET_RESERVED_ROCKETS = 'SET_RESERVED_ROCKETS';
 
 export const fetchRockets = () => async (dispatch) => {
   dispatch({ type: FETCH_ROCKETS_REQUEST });
@@ -17,9 +18,10 @@ export const fetchRockets = () => async (dispatch) => {
     dispatch({ type: FETCH_ROCKETS_FAILURE, payload: error.message });
   }
 };
-
+s
 export const reserveRocket = (rocketId) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const state = getState();
     const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
 
     if (!Array.isArray(currentReservations)) {
@@ -29,7 +31,6 @@ export const reserveRocket = (rocketId) => {
 
     const updatedRockets = [...currentReservations, { id: rocketId }];
     localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
-
     dispatch({
       type: RESERVE_ROCKET,
       payload: { id: rocketId }
@@ -37,11 +38,22 @@ export const reserveRocket = (rocketId) => {
   };
 };
 
+export const setReservedRockets = (rockets) => ({
+  type: SET_RESERVED_ROCKETS,
+  payload: rockets
+});
+
 export const cancelReservation = (rocketId) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const state = getState();
     const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
 
-    const updatedRockets = currentReservations.filter(rocket => rocket && rocket.id !== rocketId);
+    if (!Array.isArray(currentReservations)) {
+      console.error('Invalid data in localStorage');
+      return;
+    }
+
+    const updatedRockets = currentReservations.filter(rocket => rocket.id !== rocketId);
     localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
 
     dispatch({
