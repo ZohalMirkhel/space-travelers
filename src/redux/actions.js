@@ -1,29 +1,34 @@
+import axios from 'axios';
+
+export const FETCH_ROCKETS_REQUEST = 'FETCH_ROCKETS_REQUEST';
+export const FETCH_ROCKETS_SUCCESS = 'FETCH_ROCKETS_SUCCESS';
+export const FETCH_ROCKETS_FAILURE = 'FETCH_ROCKETS_FAILURE';
 export const RESERVE_ROCKET = 'RESERVE_ROCKET';
 export const CANCEL_RESERVATION = 'CANCEL_RESERVATION';
-export const SET_ROCKETS = 'SET_ROCKETS';
-export const SET_LOADING = 'SET_LOADING';
-export const SET_ERROR = 'SET_ERROR';
 
-export const reserveRocket = (rocket) => ({
+export const fetchRockets = () => async (dispatch) => {
+  dispatch({ type: FETCH_ROCKETS_REQUEST });
+
+  try {
+    const response = await axios.get('https://api.spacexdata.com/v4/rockets');
+    dispatch({
+      type: FETCH_ROCKETS_SUCCESS,
+      payload: response.data
+    });
+  } catch (error) {
+    dispatch({
+      type: FETCH_ROCKETS_FAILURE,
+      payload: error.message
+    });
+  }
+};
+
+export const reserveRocket = (rocketId) => ({
   type: RESERVE_ROCKET,
-  payload: rocket,
+  payload: { id: rocketId }
 });
 
-export const cancelReservation = (id) => ({
+export const cancelReservation = (rocketId) => ({
   type: CANCEL_RESERVATION,
-  payload: id,
-});
-
-export const setRockets = (rockets) => ({
-  type: SET_ROCKETS,
-  payload: rockets,
-});
-
-export const setLoading = () => ({
-  type: SET_LOADING,
-});
-
-export const setError = (error) => ({
-  type: SET_ERROR,
-  payload: error,
+  payload: rocketId
 });

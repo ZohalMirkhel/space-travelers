@@ -1,39 +1,50 @@
+import {
+  FETCH_ROCKETS_REQUEST,
+  FETCH_ROCKETS_SUCCESS,
+  FETCH_ROCKETS_FAILURE,
+  RESERVE_ROCKET,
+  CANCEL_RESERVATION
+} from './actions';
+
 const initialState = {
   rockets: [],
-  reservedRockets: [],
+  loading: false,
+  error: null,
+  reservedRockets: []
 };
 
-const Reducer = (state = initialState, action) => {
+const rocketReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_ROCKETS': {
+    case FETCH_ROCKETS_REQUEST:
       return {
         ...state,
-        rockets: action.payload,
+        loading: true
       };
-    }
-    case 'RESERVE_ROCKET': {
-      const newState = {
+    case FETCH_ROCKETS_SUCCESS:
+      return {
         ...state,
-        reservedRockets: [...state.reservedRockets, action.payload],
-        rockets: state.rockets.map(rocket =>
-          rocket.id === action.payload.id ? { ...rocket, reserved: true } : rocket
-        ),
+        loading: false,
+        rockets: action.payload
       };
-      return newState;
-    }
-    case 'CANCEL_RESERVATION': {
-      const newState = {
+    case FETCH_ROCKETS_FAILURE:
+      return {
         ...state,
-        reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload),
-        rockets: state.rockets.map(rocket =>
-          rocket.id === action.payload ? { ...rocket, reserved: false } : rocket
-        ),
+        loading: false,
+        error: action.payload
       };
-      return newState;
-    }
+    case RESERVE_ROCKET:
+      return {
+        ...state,
+        reservedRockets: [...state.reservedRockets, action.payload]
+      };
+    case CANCEL_RESERVATION:
+      return {
+        ...state,
+        reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload)
+      };
     default:
       return state;
   }
 };
 
-export default Reducer;
+export default rocketReducer;
