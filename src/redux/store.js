@@ -1,36 +1,35 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers';
 
-const store = configureStore({
-  reducer: rootReducer,
-});
-
 const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('reservedRockets');
+    const serializedState = localStorage.getItem('rocketState');
     if (serializedState === null) {
-      return undefined;
+      return { rockets: [], reservedRockets: [] };
     }
-    return { rockets: { reservedRockets: JSON.parse(serializedState) } };
+    return JSON.parse(serializedState);
   } catch (err) {
-    return undefined;
+    console.error('Could not load state:', err);
+    return { rockets: [], reservedRockets: [] };
   }
 };
 
-store.subscribe(() => {
+const saveState = (state) => {
   try {
-    const state = store.getState();
-    const serializedState = JSON.stringify(state.rockets.reservedRockets);
-    localStorage.setItem('reservedRockets', serializedState);
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('rocketState', serializedState);
   } catch (err) {
-    console.error('Could not save state', err);
+    console.error('Could not save state:', err);
   }
-});
+};
 
-const preloadedState = loadState();
-const storeWithPreloadedState = configureStore({
+const store = configureStore({
   reducer: rootReducer,
-  preloadedState,
+  preloadedState: loadState(),
 });
 
-export default storeWithPreloadedState;
+store.subscribe(() => {
+  saveState(store.getState());
+});
+
+export default store;

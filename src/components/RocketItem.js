@@ -19,7 +19,7 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
           <p className="text-gray-600 mb-4">
             {rocket.reserved && (
               <span className="inline-block text-sm bg-[#5F9EA0] text-white font-semibold py-1 px-3 rounded mr-2">
-                Reserved
+                Reserved  
               </span>
             )}
             {rocket.description}
