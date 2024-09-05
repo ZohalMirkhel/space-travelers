@@ -1,11 +1,9 @@
-// Action Types
 export const RESERVE_ROCKET = 'RESERVE_ROCKET';
 export const CANCEL_RESERVATION = 'CANCEL_RESERVATION';
 export const SET_ROCKETS = 'SET_ROCKETS';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_ERROR = 'SET_ERROR';
 
-// Action Creators
 export const reserveRocket = (rocket) => ({
   type: RESERVE_ROCKET,
   payload: rocket,

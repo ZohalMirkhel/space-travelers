@@ -23,27 +23,21 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
 
         <div className="flex justify-center mt-auto">
           {rocket.reserved ? (
-            <span className="text-blue-600 font-bold">Reserved</span>
+            <>
+              <span className="text-blue-600 font-bold">Reserved</span>
+              <button 
+                onClick={() => onCancel(rocket.id)} 
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full transition-colors duration-300 mt-2"
+              >
+                Cancel Reservation
+              </button>
+            </>
           ) : (
             <button 
-              onClick={() => {
-                console.log(`Reserve rocket ID: ${rocket.id}`);
-                onReserve(rocket.id);
-              }} 
+              onClick={() => onReserve(rocket)}
               className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-colors duration-300"
             >
               Reserve Rocket
-            </button>
-          )}
-          {rocket.reserved && (
-            <button 
-              onClick={() => {
-                console.log(`Cancel reservation for rocket ID: ${rocket.id}`);
-                onCancel(rocket.id);
-              }} 
-              className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full transition-colors duration-300 mt-2"
-            >
-              Cancel Reservation
             </button>
           )}
         </div>

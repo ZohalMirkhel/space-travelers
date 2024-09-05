@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import RocketItem from './RocketItem';
-import { useDispatch } from 'react-redux';
-import { reserveRocket, cancelReservation } from '../redux/reducers'; 
+import { reserveRocket, cancelReservation } from '../redux/actions';
 
 const Rockets = () => {
   const [rockets, setRockets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+  const reservedRockets = useSelector(state => state.reservedRockets);
 
   useEffect(() => {
-
+    const savedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
     const fetchRockets = async () => {
       try {
         const response = await axios.get('https://api.spacexdata.com/v4/rockets');
-        const reservedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
         const updatedRockets = response.data.map(rocket => ({
           ...rocket,
-          reserved: !!reservedRockets.find(reservedRocket => reservedRocket.id === rocket.id)
+          reserved: savedRockets.some(reservedRocket => reservedRocket.id === rocket.id),
         }));
         setRockets(updatedRockets);
       } catch (err) {
@@ -26,27 +26,32 @@ const Rockets = () => {
       } finally {
         setLoading(false);
       }
-    };    
-
+    };
     fetchRockets();
   }, []);
 
-  const handleReserveClick = (id) => {
-    dispatch(reserveRocket(id));
-    setRockets(prevRockets =>
-      prevRockets.map(rocket =>
-        rocket.id === id ? { ...rocket, reserved: true } : rocket
-      )
-    );
+  const handleReserveClick = (rocket) => {
+    dispatch(reserveRocket(rocket));
+    updateLocalStorage(rocket, true);
   };
 
   const handleCancelClick = (id) => {
     dispatch(cancelReservation(id));
-    setRockets(prevRockets =>
-      prevRockets.map(rocket =>
-        rocket.id === id ? { ...rocket, reserved: false } : rocket
-      )
-    );
+    updateLocalStorage(id, false);
+  };
+
+  const updateLocalStorage = (rocketOrId, isReserving) => {
+    let savedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+    
+    if (isReserving) {
+      if (!savedRockets.some(savedRocket => savedRocket.id === rocketOrId.id)) {
+        savedRockets.push(rocketOrId);
+      }
+    } else {
+      savedRockets = savedRockets.filter(savedRocket => savedRocket.id !== rocketOrId);
+    }
+
+    localStorage.setItem('reservedRockets', JSON.stringify(savedRockets));
   };
 
   if (loading) return <div>Loading...</div>;

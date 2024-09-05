@@ -3,41 +3,33 @@ const initialState = {
   reservedRockets: [],
 };
 
-const RESERVE_ROCKET = 'RESERVE_ROCKET';
-const CANCEL_RESERVATION = 'CANCEL_RESERVATION';
-
-export const reserveRocket = (id) => ({
-  type: RESERVE_ROCKET,
-  payload: id,
-});
-
-export const cancelReservation = (id) => ({
-  type: CANCEL_RESERVATION,
-  payload: id,
-});
-
 const rocketReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RESERVE_ROCKET: {
-      const reservedRocket = state.rockets.find(rocket => rocket.id === action.payload);
-      if (!reservedRocket) return state;
-
+    case 'SET_ROCKETS': {
       return {
         ...state,
-        reservedRockets: [...state.reservedRockets, reservedRocket],
-        rockets: state.rockets.map(rocket =>
-          rocket.id === action.payload ? { ...rocket, reserved: true } : rocket
-        ),
+        rockets: action.payload,
       };
     }
-    case CANCEL_RESERVATION: {
-      return {
+    case 'RESERVE_ROCKET': {
+      const newState = {
+        ...state,
+        reservedRockets: [...state.reservedRockets, action.payload],
+        rockets: state.rockets.map(rocket =>
+          rocket.id === action.payload.id ? { ...rocket, reserved: true } : rocket
+        ),
+      };
+      return newState;
+    }
+    case 'CANCEL_RESERVATION': {
+      const newState = {
         ...state,
         reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload),
         rockets: state.rockets.map(rocket =>
           rocket.id === action.payload ? { ...rocket, reserved: false } : rocket
         ),
       };
+      return newState;
     }
     default:
       return state;
