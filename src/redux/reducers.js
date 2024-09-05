@@ -3,7 +3,7 @@ const initialState = {
   reservedRockets: [],
 };
 
-const rocketReducer = (state = initialState, action) => {
+const Reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_ROCKETS': {
       return {
@@ -36,4 +36,4 @@ const rocketReducer = (state = initialState, action) => {
   }
 };
 
-export default rocketReducer;
+export default Reducer;
