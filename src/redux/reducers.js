@@ -16,26 +16,31 @@ const initialState = {
 const rocketReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ROCKETS_REQUEST:
-      return { ...state, loading: true };
-    case FETCH_ROCKETS_SUCCESS:
-      return { ...state, loading: false, rockets: action.payload };
-    case FETCH_ROCKETS_FAILURE:
-      return { ...state, loading: false, error: action.payload };
-    case RESERVE_ROCKET:
-      const reservedRocketsAfterReserve = [...state.reservedRockets, { id: action.payload.id }];
-      localStorage.setItem('reservedRockets', JSON.stringify(reservedRocketsAfterReserve));
       return {
         ...state,
-        reservedRockets: reservedRocketsAfterReserve
+        loading: true
+      };
+    case FETCH_ROCKETS_SUCCESS:
+      return {
+        ...state,
+        rockets: action.payload,
+        loading: false
+      };
+    case FETCH_ROCKETS_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+    case RESERVE_ROCKET:
+      return {
+        ...state,
+        reservedRockets: [...state.reservedRockets, { id: action.payload.id }]
       };
     case CANCEL_RESERVATION:
-      const reservedRocketsAfterCancel = state.reservedRockets.filter(
-        rocket => rocket.id !== action.payload
-      );
-      localStorage.setItem('reservedRockets', JSON.stringify(reservedRocketsAfterCancel));
       return {
         ...state,
-        reservedRockets: reservedRocketsAfterCancel
+        reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload)
       };
     default:
       return state;
