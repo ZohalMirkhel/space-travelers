@@ -6,16 +6,17 @@ const ProfileList = () => {
 
   return (
     <div>
-      <h2>Your Reserved Rockets</h2>
-      {reservedRockets.length > 0 ? (
+      <h1>My Reserved Rockets</h1>
+      {reservedRockets && reservedRockets.length > 0 ? (
         reservedRockets.map(rocket => (
-          <div key={rocket.id}>
-            <h3>{rocket.name}</h3>
-            <p>{rocket.description}</p>
-          </div>
+          rocket && rocket.id ? (
+            <div key={rocket.id}>
+              <p>Rocket ID: {rocket.id}</p>
+            </div>
+          ) : null
         ))
       ) : (
-        <p>No rockets reserved yet.</p>
+        <p>No reserved rockets.</p>
       )}
     </div>
   );
