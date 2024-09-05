@@ -4,6 +4,11 @@ import { useSelector } from 'react-redux';
 const ProfileList = () => {
   const reservedRockets = useSelector((state) => state.reservedRockets);
 
+  // Add a check to handle null or undefined values
+  if (!Array.isArray(reservedRockets)) {
+    return <div>Error: Reserved rockets data is not available.</div>;
+  }
+
   return (
     <div className="container mx-auto p-4 flex space-x-4">
       <div className="w-1/2 ml-auto">
@@ -20,7 +25,7 @@ const ProfileList = () => {
             </tr>
           </thead>
           <tbody>
-            {reservedRockets && reservedRockets.length > 0 ? (
+            {reservedRockets.length > 0 ? (
               reservedRockets.map((rocket, index) => (
                 <tr key={rocket.id + index} className="bg-white">
                   <td className="border border-gray-300 px-6 py-2 text-base text-left">
