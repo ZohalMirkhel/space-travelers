@@ -2,12 +2,12 @@ import React from 'react';
 
 const RocketItem = ({ rocket, onReserve, onCancel }) => {
   return (
-    <div className="flex flex-col md:flex-row bg-white border border-gray-300 shadow-lg overflow-hidden mb-6">
-      <div className="md:w-1/3">
+    <div className="p-4 md:p-6 flex flex-col md:flex-row bg-white border border-gray-300 rounded shadow-lg overflow-hidden mb-6">
+      <div className="md:w-1/3 flex justify-center items-center">
         <img 
           src={rocket.image} 
           alt={rocket.name} 
-          className="w-full h-48 object-cover"
+          className="w-full h-52 object-cover"
         />
       </div>
 
@@ -15,13 +15,13 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
         <div>
           <h3 className="text-2xl font-bold text-gray-800 mb-3 flex items-center">
             {rocket.name}
+          </h3>
+          <p className="text-gray-600 mb-4">
             {rocket.reserved && (
-              <span className="ml-3 text-sm bg-[#5F9EA0] text-white font-semibold py-1 px-3 rounded-full">
+              <span className="inline-block text-sm bg-[#5F9EA0] text-white font-semibold py-1 px-3 rounded mr-2">
                 Reserved
               </span>
             )}
-          </h3>
-          <p className="text-gray-600 mb-4">
             {rocket.description}
           </p>
         </div>
@@ -30,14 +30,14 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
           {rocket.reserved ? (
             <button 
               onClick={() => onCancel(rocket.id)} 
-              className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full transition-colors duration-300"
+              className="bg-white text-gray-500 border border-gray-500 px-3 py-1 rounded text-sm"
             >
               Cancel Reservation
             </button>
           ) : (
             <button 
               onClick={() => onReserve(rocket)}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-colors duration-300"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
             >
               Reserve Rocket
             </button>

@@ -52,7 +52,7 @@ const Rockets = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="rockets-container">
+    <div className="rockets-container p-4 md:px-24 md:py-12">
       {rockets.length > 0 ? (
         <div className="rocket-item-container">
           {rockets.map(rocket => (
