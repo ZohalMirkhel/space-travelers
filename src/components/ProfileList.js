@@ -6,7 +6,7 @@ const ReservedRocketsProfile = () => {
 
   return (
     <div className="container mx-auto p-4 flex space-x-4">
-      <div className="w-1/2 ml-auto">
+      <div className="w-1/2 ml-auto"> {/* Table placed on the right */}
         <table className="min-w-full table-auto border-separate border-spacing-0 border-2 border-black rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gray-100">
