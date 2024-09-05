@@ -7,8 +7,8 @@ import {
 } from './actions';
 
 const initialState = {
-  rockets: [], // This should be the rockets fetched from the API
-  reservedRockets: [], // Ensure this is an array
+  rockets: [],
+  reservedRockets: JSON.parse(localStorage.getItem('reservedRockets')) || [],
   loading: false,
   error: null
 };
@@ -24,7 +24,7 @@ const rocketReducer = (state = initialState, action) => {
     case RESERVE_ROCKET:
       return {
         ...state,
-        reservedRockets: [...state.reservedRockets, { id: action.payload }]
+        reservedRockets: [...state.reservedRockets, action.payload]
       };
     case CANCEL_RESERVATION:
       return {
@@ -37,5 +37,6 @@ const rocketReducer = (state = initialState, action) => {
       return state;
   }
 };
+
 
 export default rocketReducer;

@@ -22,18 +22,26 @@ export const reserveRocket = (rocketId) => {
   return (dispatch, getState) => {
     const state = getState();
     const reservedRockets = state.reservedRockets || [];
-    const isAlreadyReserved = reservedRockets.some((rocket) => rocket.id === rocketId);
+
+    if (!rocketId) {
+      console.error('Invalid rocketId:', rocketId);
+      return;
+    }
+
+    const isAlreadyReserved = reservedRockets.some(r => r.id === rocketId);
 
     if (isAlreadyReserved) {
-      dispatch(cancelReservation(rocketId));
+      dispatch({
+        type: CANCEL_RESERVATION,
+        payload: rocketId,
+      });
     } else {
+      const updatedRockets = [...reservedRockets, { id: rocketId }];
+      localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
       dispatch({
         type: RESERVE_ROCKET,
         payload: { id: rocketId }
       });
-
-      const updatedRockets = [...reservedRockets, { id: rocketId }];
-      localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
     }
   };
 };
