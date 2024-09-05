@@ -11,26 +11,22 @@ const Rockets = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     const fetchRockets = async () => {
       try {
-        console.log('Fetching rockets...');
         const response = await axios.get('https://api.spacexdata.com/v4/rockets');
-        console.log('Response data:', response.data);
         const reservedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
-
         const updatedRockets = response.data.map(rocket => ({
           ...rocket,
           reserved: !!reservedRockets.find(reservedRocket => reservedRocket.id === rocket.id)
         }));
-
         setRockets(updatedRockets);
-        setLoading(false);
       } catch (err) {
-        console.error('Error fetching rockets:', err);
         setError('Failed to fetch rockets data.');
+      } finally {
         setLoading(false);
       }
-    };
+    };    
 
     fetchRockets();
   }, []);

@@ -3,7 +3,6 @@ import React from 'react';
 const RocketItem = ({ rocket, onReserve, onCancel }) => {
   return (
     <div className="flex flex-col md:flex-row bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
-      {/* Image part */}
       <div className="md:w-1/3">
         <img 
           src={rocket.image} 
@@ -12,7 +11,6 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
         />
       </div>
 
-      {/* Content part */}
       <div className="md:w-2/3 p-6 flex flex-col justify-between">
         <div>
           <h3 className="text-2xl font-bold text-gray-800 mb-3">
@@ -23,14 +21,13 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
           </p>
         </div>
 
-        {/* Button part */}
         <div className="flex justify-center mt-auto">
           {rocket.reserved ? (
             <span className="text-blue-600 font-bold">Reserved</span>
           ) : (
             <button 
               onClick={() => {
-                console.log(`Reserve rocket ID: ${rocket.id}`); // Debugging log
+                console.log(`Reserve rocket ID: ${rocket.id}`);
                 onReserve(rocket.id);
               }} 
               className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-colors duration-300"
@@ -41,7 +38,7 @@ const RocketItem = ({ rocket, onReserve, onCancel }) => {
           {rocket.reserved && (
             <button 
               onClick={() => {
-                console.log(`Cancel reservation for rocket ID: ${rocket.id}`); // Debugging log
+                console.log(`Cancel reservation for rocket ID: ${rocket.id}`);
                 onCancel(rocket.id);
               }} 
               className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full transition-colors duration-300 mt-2"

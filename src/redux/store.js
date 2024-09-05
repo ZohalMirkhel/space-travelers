@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import {thunk} from 'redux-thunk';
-import rocketReducer from './reducers'; // Ensure this path is correct
+import rocketReducer from './reducers';
 
 const loadState = () => {
   try {
@@ -25,10 +25,12 @@ const saveState = (state) => {
 const store = createStore(
   rocketReducer,
   {
+    rockets: [],
     reservedRockets: loadState() || [],
   },
   applyMiddleware(thunk)
 );
+
 
 store.subscribe(() => {
   saveState(store.getState().reservedRockets);
