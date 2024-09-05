@@ -12,13 +12,12 @@ const Rockets = () => {
   const reservedRockets = useSelector(state => state.reservedRockets);
 
   useEffect(() => {
-    const savedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
     const fetchRockets = async () => {
       try {
         const response = await axios.get('https://api.spacexdata.com/v4/rockets');
         const updatedRockets = response.data.map(rocket => ({
           ...rocket,
-          reserved: savedRockets.some(reservedRocket => reservedRocket.id === rocket.id),
+          reserved: reservedRockets.some(reservedRocket => reservedRocket.id === rocket.id)
         }));
         setRockets(updatedRockets);
       } catch (err) {
@@ -27,31 +26,26 @@ const Rockets = () => {
         setLoading(false);
       }
     };
+
     fetchRockets();
-  }, []);
+  }, [reservedRockets]);
 
   const handleReserveClick = (rocket) => {
     dispatch(reserveRocket(rocket));
-    updateLocalStorage(rocket, true);
+    updateLocalState(rocket.id, true);
   };
 
   const handleCancelClick = (id) => {
     dispatch(cancelReservation(id));
-    updateLocalStorage(id, false);
+    updateLocalState(id, false);
   };
 
-  const updateLocalStorage = (rocketOrId, isReserving) => {
-    let savedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
-    
-    if (isReserving) {
-      if (!savedRockets.some(savedRocket => savedRocket.id === rocketOrId.id)) {
-        savedRockets.push(rocketOrId);
-      }
-    } else {
-      savedRockets = savedRockets.filter(savedRocket => savedRocket.id !== rocketOrId);
-    }
-
-    localStorage.setItem('reservedRockets', JSON.stringify(savedRockets));
+  const updateLocalState = (id, isReserved) => {
+    setRockets(prevRockets =>
+      prevRockets.map(rocket =>
+        rocket.id === id ? { ...rocket, reserved: isReserved } : rocket
+      )
+    );
   };
 
   if (loading) return <div>Loading...</div>;
