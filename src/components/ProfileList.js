@@ -21,7 +21,7 @@ const ProfileList = () => {
   }).filter(name => name);
 
   return (
-    <div className="container mx-auto p-4 flex justify-end space-y-4">
+    <div class="rockets" className="container mx-auto p-4 flex justify-end space-y-4">
       <div className="w-full mt-4 max-w-lg ml-auto">
         <table className="min-w-full table-auto border-separate border-spacing-0 border-2 border-black rounded-lg overflow-hidden">
           <thead>
