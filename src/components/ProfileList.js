@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 const ProfileList = () => {
   const missions = useSelector((state) => state.missions);
+  
   const joinedMissions = missions.filter((mission) => mission.reserved);
 
   return (
@@ -32,7 +33,6 @@ const ProfileList = () => {
                       Active Member
                     </span>
                   </td>
-
                 </tr>
               ))
             ) : (
