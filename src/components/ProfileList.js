@@ -3,11 +3,8 @@ import { useSelector } from 'react-redux';
 
 const ProfileList = () => {
   const missions = useSelector((state) => state.missions);
-  const reservedRockets = useSelector((state) => state.reservedRockets);
-
-  if (!Array.isArray(reservedRockets)) {
-    return <div>Error: Reserved rockets data is not available.</div>;
-  }
+  
+  const joinedMissions = missions.filter((mission) => mission.reserved);
 
   return (
     <div className="container mx-auto p-4 flex space-x-4">
