@@ -24,7 +24,10 @@ export const setReservedRockets = (rockets) => ({
   payload: rockets
 });
 
-export const reserveRocket = (rocketId) => (dispatch) => {
+export const reserveRocket = (rocketId) => (dispatch, getState) => {
+  const state = getState();
+  const reservedRockets = state.reservedRockets || [];
+
   const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
   if (!Array.isArray(currentReservations)) {
     console.error('Invalid data in localStorage');
@@ -40,10 +43,11 @@ export const reserveRocket = (rocketId) => (dispatch) => {
   });
 };
 
-export const cancelReservation = (rocketId) => (dispatch) => {
-  const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+export const cancelReservation = (rocketId) => (dispatch, getState) => {
+  const state = getState();
+  const reservedRockets = state.reservedRockets || [];
 
-  const updatedRockets = currentReservations.filter(rocket => rocket && rocket.id !== rocketId);
+  const updatedRockets = reservedRockets.filter(rocket => rocket && rocket.id !== rocketId);
   localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
 
   dispatch({
