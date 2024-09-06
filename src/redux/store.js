@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers';
-import { applyMiddleware, compose } from 'redux';
-import {thunk} from 'redux-thunk';
+import thunk from 'redux-thunk';
 
 const loadState = () => {
   try {
@@ -15,15 +14,15 @@ const loadState = () => {
 
 const composeEnhancers =
   process.env.NODE_ENV === 'development'
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-    : compose;
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || ((f) => f)
+    : (f) => f;
 
 const store = configureStore({
   reducer: rootReducer,
   preloadedState: loadState(),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(thunk),
-  enhancers: [composeEnhancers],
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export default store;
