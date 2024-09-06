@@ -1,35 +1,29 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers';
+import { applyMiddleware, compose } from 'redux';
+import {thunk} from 'redux-thunk';
 
 const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('rocketState');
-    if (serializedState === null) {
-      return { rockets: [], reservedRockets: [] };
-    }
-    return JSON.parse(serializedState);
+    const serializedState = localStorage.getItem('state');
+    return serializedState ? JSON.parse(serializedState) : undefined;
   } catch (err) {
-    console.error('Could not load state:', err);
-    return { rockets: [], reservedRockets: [] };
+    console.error('Failed to load state from localStorage:', err);
+    return undefined;
   }
 };
 
-const saveState = (state) => {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('rocketState', serializedState);
-  } catch (err) {
-    console.error('Could not save state:', err);
-  }
-};
+const composeEnhancers =
+  process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    : compose;
 
 const store = configureStore({
   reducer: rootReducer,
   preloadedState: loadState(),
-});
-
-store.subscribe(() => {
-  saveState(store.getState());
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(thunk),
+  enhancers: [composeEnhancers],
 });
 
 export default store;

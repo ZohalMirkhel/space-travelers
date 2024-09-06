@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { FETCH_ROCKETS_SUCCESS, RESERVE_ROCKET, CANCEL_RESERVATION, SET_RESERVED_ROCKETS } from './actions';
+
 const initialMissionsState = JSON.parse(localStorage.getItem('missions')) || [];
 
 const missionsReducer = (state = initialMissionsState, action) => {
@@ -8,7 +10,7 @@ const missionsReducer = (state = initialMissionsState, action) => {
         ...mission,
         reserved: state.find((m) => m.mission_id === mission.mission_id)?.reserved || false,
       }));
-    case 'JOIN_MISSION':
+    case 'JOIN_MISSION': {
       const newStateJoin = state.map((mission) =>
         mission.mission_id === action.payload
           ? { ...mission, reserved: true }
@@ -16,7 +18,8 @@ const missionsReducer = (state = initialMissionsState, action) => {
       );
       localStorage.setItem('missions', JSON.stringify(newStateJoin));
       return newStateJoin;
-    case 'LEAVE_MISSION':
+    }
+    case 'LEAVE_MISSION': {
       const newStateLeave = state.map((mission) =>
         mission.mission_id === action.payload
           ? { ...mission, reserved: false }
@@ -24,6 +27,7 @@ const missionsReducer = (state = initialMissionsState, action) => {
       );
       localStorage.setItem('missions', JSON.stringify(newStateLeave));
       return newStateLeave;
+    }
     default:
       return state;
   }
@@ -31,36 +35,38 @@ const missionsReducer = (state = initialMissionsState, action) => {
 
 const initialRocketsState = {
   rockets: [],
-  reservedRockets: [],
+  reservedRockets: JSON.parse(localStorage.getItem('reservedRockets')) || [],
 };
 
 const rocketsReducer = (state = initialRocketsState, action) => {
   switch (action.type) {
-    case 'SET_ROCKETS': {
+    case FETCH_ROCKETS_SUCCESS:
       return {
         ...state,
         rockets: action.payload,
       };
-    }
-    case 'RESERVE_ROCKET': {
-      const newState = {
+    case SET_RESERVED_ROCKETS:
+      return {
         ...state,
-        reservedRockets: [...state.reservedRockets, action.payload],
-        rockets: state.rockets.map(rocket =>
-          rocket.id === action.payload.id ? { ...rocket, reserved: true } : rocket
-        ),
+        reservedRockets: action.payload,
       };
-      return newState;
-    }
-    case 'CANCEL_RESERVATION': {
-      const newState = {
+    case RESERVE_ROCKET: {
+      const updatedReserved = [...state.reservedRockets, { id: action.payload.id }];
+      localStorage.setItem('reservedRockets', JSON.stringify(updatedReserved));
+      return {
         ...state,
-        reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload),
-        rockets: state.rockets.map(rocket =>
-          rocket.id === action.payload ? { ...rocket, reserved: false } : rocket
-        ),
+        reservedRockets: updatedReserved,
       };
-      return newState;
+    }
+    case CANCEL_RESERVATION: {
+      const updatedReserved = state.reservedRockets.filter(
+        (rocket) => rocket.id !== action.payload
+      );
+      localStorage.setItem('reservedRockets', JSON.stringify(updatedReserved));
+      return {
+        ...state,
+        reservedRockets: updatedReserved,
+      };
     }
     default:
       return state;
