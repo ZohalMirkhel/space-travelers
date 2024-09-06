@@ -22,10 +22,6 @@ const ProfileList = () => {
 
   return (
     <div className="container mx-auto p-4 flex flex-col space-y-4">
-      <div className="bg-gray-100 p-4 border border-gray-300 rounded-lg shadow-md mb-10">
-        <p>Content for the second table will be placed here.</p>
-      </div>
-
       <div className="w-full mt-4">
         <table className="min-w-full table-auto border-separate border-spacing-0 border-2 border-black rounded-lg overflow-hidden">
           <thead>
