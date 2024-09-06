@@ -37,7 +37,7 @@ const ProfileList = () => {
             ) : (
               <tr>
                 <td colSpan="2" className="border border-gray-300 px-6 py-2 text-base text-left">
-                  No missions joined yet.
+                  No missions joined yet!
                 </td>
               </tr>
             )}
