@@ -19,44 +19,35 @@ export const fetchRockets = () => async (dispatch) => {
   }
 };
 
-export const reserveRocket = (rocketId) => {
-  return (dispatch, getState) => {
-    const state = getState();
-    const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+export const setReservedRockets = (rockets) => ({
+  type: SET_RESERVED_ROCKETS,
+  payload: rockets
+});
 
-    if (!currentReservations.some(rocket => rocket.id === rocketId)) {
-      const updatedRockets = [...currentReservations, { id: rocketId }];
-      localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
-      
-      dispatch({
-        type: RESERVE_ROCKET,
-        payload: { id: rocketId }
-      });
-    }
-  };
+export const reserveRocket = (rocketId) => (dispatch) => {
+  const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
+  if (!Array.isArray(currentReservations)) {
+    console.error('Invalid data in localStorage');
+    return;
+  }
+
+  const updatedRockets = [...currentReservations, { id: rocketId }];
+  localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
+
+  dispatch({
+    type: RESERVE_ROCKET,
+    payload: { id: rocketId }
+  });
 };
 
-export const cancelReservation = (rocketId) => {
-  return (dispatch, getState) => {
-    const state = getState();
-    const reservedRockets = state.reservedRockets || [];
+export const cancelReservation = (rocketId) => (dispatch) => {
+  const currentReservations = JSON.parse(localStorage.getItem('reservedRockets')) || [];
 
-    const updatedRockets = reservedRockets.filter(rocket => rocket.id !== rocketId);
-    localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
+  const updatedRockets = currentReservations.filter(rocket => rocket && rocket.id !== rocketId);
+  localStorage.setItem('reservedRockets', JSON.stringify(updatedRockets));
 
-    dispatch({
-      type: CANCEL_RESERVATION,
-      payload: rocketId
-    });
-  };
-};
-
-export const setReservedRockets = () => {
-  return (dispatch) => {
-    const reservedRockets = JSON.parse(localStorage.getItem('reservedRockets')) || [];
-    dispatch({
-      type: SET_RESERVED_ROCKETS,
-      payload: reservedRockets
-    });
-  };
+  dispatch({
+    type: CANCEL_RESERVATION,
+    payload: rocketId
+  });
 };

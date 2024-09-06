@@ -5,31 +5,31 @@ const initialState = {
   reservedRockets: []
 };
 
-const rocketReducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ROCKETS_SUCCESS:
       return {
         ...state,
         rockets: action.payload
       };
+    case SET_RESERVED_ROCKETS:
+      return {
+        ...state,
+        reservedRockets: action.payload
+      };
     case RESERVE_ROCKET:
       return {
         ...state,
-        reservedRockets: [...state.reservedRockets, action.payload]
+        reservedRockets: [...state.reservedRockets, { id: action.payload.id }]
       };
     case CANCEL_RESERVATION:
       return {
         ...state,
         reservedRockets: state.reservedRockets.filter(rocket => rocket.id !== action.payload)
       };
-    case SET_RESERVED_ROCKETS:
-      return {
-        ...state,
-        reservedRockets: action.payload
-      };
     default:
       return state;
   }
 };
 
-export default rocketReducer;
+export default reducer;
