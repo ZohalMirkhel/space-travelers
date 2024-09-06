@@ -6,7 +6,7 @@ const ProfileList = () => {
   const joinedMissions = missions.filter((mission) => mission.reserved);
 
   return (
-    <div className="container mx-auto p-4 flex justify-center md:justify-start space-x-4">
+    <div class="missions" className="container mx-auto p-4 flex justify-center md:justify-start space-x-4">
       <div className="w-full md:w-1/2 mt-4 md:mt-0">
         <table className="min-w-full table-auto border-separate border-spacing-0 border-2 border-black rounded-lg overflow-hidden">
           <thead>
