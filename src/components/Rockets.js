@@ -18,15 +18,16 @@ const Rockets = () => {
   if (error) return <p>Error fetching rockets: {error}</p>;
 
   return (
-    <div>
-      <h1>Available Rockets</h1>
-      {rockets && rockets.length > 0 ? (
-        rockets.map(rocket => (
-          <RocketItem key={rocket.id} rocket={rocket} />
-        ))
-      ) : (
-        <p>No rockets available.</p>
-      )}
+    <div className="rockets-container p-4 md:px-24 md:py-12">
+      <div className="rocket-item-container">
+        {rockets && rockets.length > 0 ? (
+          rockets.map(rocket => (
+            <RocketItem key={rocket.id} rocket={rocket} />
+          ))
+        ) : (
+          <p>No rockets available.</p>
+        )}
+      </div>
     </div>
   );
 };
