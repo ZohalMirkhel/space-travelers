@@ -1,13 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers';
-import {thunk} from 'redux-thunk';
+import { thunk } from 'redux-thunk';
+import reducer from './rocketsReducers';
 
 const loadState = () => {
   try {
     const serializedState = localStorage.getItem('state');
-    return serializedState ? JSON.parse(serializedState) : undefined;
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
   } catch (err) {
-    console.error('Failed to load state from localStorage:', err);
+    console.error("Could not load state", err);
     return undefined;
   }
 };
@@ -18,7 +21,9 @@ const composeEnhancers =
     : (f) => f;
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    rocketsReducer: reducer,
+  },
   preloadedState: loadState(),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(thunk),
