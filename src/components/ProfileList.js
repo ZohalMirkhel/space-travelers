@@ -4,23 +4,24 @@ import { fetchRockets, setReservedRockets } from '../redux/actions';
 
 const ProfileList = () => {
   const dispatch = useDispatch();
-  const rockets = useSelector(state => state.rockets || []);
-  const reservedRockets = useSelector(state => state.reservedRockets || []);
+  const rockets = useSelector(state => state.rockets.rockets || []);
+  const reservedRockets = useSelector(state => state.rockets.reservedRockets || []);
   const missions = useSelector(state => state.missions || []);
   const joinedMissions = missions.filter((mission) => mission.reserved);
 
   useEffect(() => {
     dispatch(fetchRockets());
+
     const reservedFromLocalStorage = JSON.parse(localStorage.getItem('reservedRockets')) || [];
     if (Array.isArray(reservedFromLocalStorage)) {
       dispatch(setReservedRockets(reservedFromLocalStorage));
     }
   }, [dispatch]);
 
-  const reservedRocketDetails = reservedRockets.map(reserved => {
-    const rocket = rockets.find(rocket => rocket.id === reserved.id);
+  const reservedRocketDetails = reservedRockets.map((reserved) => {
+    const rocket = rockets.find((rocket) => rocket.id === reserved.id);
     return rocket ? rocket.name : null;
-  }).filter(name => name);
+  }).filter((name) => name);
 
   return (
     <div className="container mx-auto p-4">

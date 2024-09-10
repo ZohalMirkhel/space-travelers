@@ -45,11 +45,11 @@ const rocketsReducer = (state = initialRocketsState, action) => {
         ...state,
         rockets: action.payload,
       };
-    case SET_RESERVED_ROCKETS:
-      return {
-        ...state,
-        reservedRockets: action.payload,
-      };
+      case SET_RESERVED_ROCKETS:
+        return {
+          ...state,
+          reservedRockets: action.payload,
+        };      
     case RESERVE_ROCKET: {
       const updatedReserved = [...state.reservedRockets, { id: action.payload.id }];
       localStorage.setItem('reservedRockets', JSON.stringify(updatedReserved));

@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { reserveRocket, cancelReservation, setReservedRockets } from '../redux/actions';
+import { reserveRocket, cancelReservation } from '../redux/actions';
 
 const RocketItem = ({ rocket }) => {
   const dispatch = useDispatch();
-  const reservedRockets = useSelector(state => state.reservedRockets.map(r => r.id));
+  const reservedRockets = useSelector(state => state.rockets.reservedRockets.map(r => r.id));
   const isReserved = reservedRockets.includes(rocket.id);
-
-  useEffect(() => {
-    const reservedFromLocalStorage = JSON.parse(localStorage.getItem('reservedRockets')) || [];
-    if (Array.isArray(reservedFromLocalStorage)) {
-      dispatch(setReservedRockets(reservedFromLocalStorage));
-    }
-  }, [dispatch]);
 
   const handleReserve = () => {
     if (isReserved) {
