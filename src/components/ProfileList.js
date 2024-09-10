@@ -4,8 +4,8 @@ import { fetchRockets, setReservedRockets } from '../redux/actions';
 
 const ProfileList = () => {
   const dispatch = useDispatch();
-  const rockets = useSelector(state => state.rockets);
-  const reservedRockets = useSelector(state => state.reservedRockets);
+  const rockets = useSelector((state) => state.rockets.allRockets);
+  const reservedRockets = useSelector((state) => state.rockets.reservedRockets);
 
   useEffect(() => {
     dispatch(fetchRockets());
@@ -15,13 +15,13 @@ const ProfileList = () => {
     }
   }, [dispatch]);
 
-  const reservedRocketDetails = reservedRockets.map(reserved => {
-    const rocket = rockets.find(rocket => rocket.id === reserved.id);
+  const reservedRocketDetails = reservedRockets.map((reserved) => {
+    const rocket = rockets.find((rocket) => rocket.id === reserved.id);
     return rocket ? rocket.name : null;
-  }).filter(name => name);
+  }).filter((name) => name);
 
   return (
-    <div class="rockets" className="container mx-auto p-4 flex justify-end space-y-4">
+    <div className="container mx-auto p-4 flex justify-end space-y-4">
       <div className="w-full mt-4 max-w-lg ml-auto">
         <table className="min-w-full table-auto border-separate border-spacing-0 border-2 border-black rounded-lg overflow-hidden">
           <thead>

@@ -12,12 +12,14 @@ export const fetchRockets = () => async (dispatch) => {
 
   try {
     const response = await axios.get('https://api.spacexdata.com/v4/rockets');
+    console.log(response.data); // Check if this logs the rockets data properly
     const validRockets = response.data.filter(rocket => rocket && rocket.id);
     dispatch({ type: FETCH_ROCKETS_SUCCESS, payload: validRockets });
   } catch (error) {
     dispatch({ type: FETCH_ROCKETS_FAILURE, payload: error.message });
   }
 };
+
 
 export const setReservedRockets = (rockets) => ({
   type: SET_RESERVED_ROCKETS,
