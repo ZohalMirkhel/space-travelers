@@ -65,14 +65,14 @@ You can view a live demo of the project [here](https://space-travelers-henna.ver
 If you'd like to contribute to this project, please fork the repository, make your changes, and submit a pull request. Contributions to improve the calculator's functionality, fix bugs, or enhance its design are welcome!
 
 ## Author
-## Walwala Safi
-## Zohal Mirkhel
 
+*Zohal Mirkhel*
 For any questions, feedback, or support, please contact us at:
 - Email: [zohalmirkhel@gmail.com](mailto:zohalmirkhel@gmail.com)
 - GitHub: [ZohalMirkhel](https://github.com/ZohalMirkhel)
 - LinkedIn: [Zohal Mirkhel](https://www.linkedin.com/in/zohal-mirkhel-840a7530a/)
 
+*Walwala Safi*
 - Email: [walwalasafi99@gmail.com](mailto:walwalasafi99@gmail.com)
 - GitHub: [Walwala~Safi](https://github.com/WALWALASAFI)
 - LinkedIn: [Walwala Safi](https://www.linkedin.com/in/walwala-safi-65b56530a/)
