@@ -66,13 +66,12 @@ If you'd like to contribute to this project, please fork the repository, make yo
 
 ## Author
 
-*Zohal Mirkhel*
-For any questions, feedback, or support, please contact us at:
+**Zohal Mirkhel**
 - Email: [zohalmirkhel@gmail.com](mailto:zohalmirkhel@gmail.com)
 - GitHub: [ZohalMirkhel](https://github.com/ZohalMirkhel)
 - LinkedIn: [Zohal Mirkhel](https://www.linkedin.com/in/zohal-mirkhel-840a7530a/)
 
-*Walwala Safi*
+**Walwala Safi**
 - Email: [walwalasafi99@gmail.com](mailto:walwalasafi99@gmail.com)
 - GitHub: [Walwala~Safi](https://github.com/WALWALASAFI)
 - LinkedIn: [Walwala Safi](https://www.linkedin.com/in/walwala-safi-65b56530a/)
